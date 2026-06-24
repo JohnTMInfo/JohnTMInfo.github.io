@@ -14,6 +14,7 @@
         body {
             background-color: #1b1b1c; /* Fallback */
             cursor: none; /* Hide default cursor for custom cursor */
+            overflow-x: hidden;
         }
 
         .mc-border {
@@ -30,7 +31,7 @@
             border-left-color: #d3ae8e;
             border-right-color: #5c4128; /* secondary-container */
             border-bottom-color: #5c4128;
-            background-color: #e6bf9e; /* secondary */
+            background-color: rgba(230, 191, 158, 0.8); /* secondary with transparency */
             color: #2b1703; /* on-secondary-fixed */
         }
 
@@ -48,8 +49,8 @@
             border-left-color: #bdf290;
             border-right-color: #275000; /* on-primary-fixed-variant */
             border-bottom-color: #275000;
-            background-color: #6e9e47; /* primary-container */
-            transition: all 0.15s ease-in-out;
+            background-color: rgba(110, 158, 71, 0.9); /* primary-container */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             cursor: none;
         }
@@ -79,7 +80,7 @@
 
         .xp-bar-container {
             border: 2px solid #000;
-            background-color: #131313; /* background */
+            background-color: rgba(19, 19, 19, 0.8); /* background */
             position: relative;
             height: 24px;
             width: 100%;
@@ -99,27 +100,23 @@
             image-rendering: pixelated;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
+        .scroll-reveal {
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .fade-in-up-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .delay-100 { animation-delay: 100ms; }
-        .delay-200 { animation-delay: 200ms; }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+        .delay-600 { transition-delay: 600ms; }
 
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -139,30 +136,36 @@
 
         /* Fortnite Theme Styles */
         .fn-card {
-            background: linear-gradient(135deg, rgba(58, 20, 114, 0.8), rgba(122, 40, 203, 0.8));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(122, 40, 203, 0.5);
+            background: linear-gradient(135deg, rgba(103, 58, 183, 0.6), rgba(243, 175, 25, 0.4));
+            border: 2px solid rgba(243, 175, 25, 0.8);
+            box-shadow: 0 0 20px rgba(243, 175, 25, 0.4);
             transform: skew(-2deg);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+            backdrop-filter: blur(12px);
         }
         .fn-card:hover {
-            transform: skew(-2deg) scale(1.02);
-            box-shadow: 0 0 30px rgba(122, 40, 203, 0.8);
+            transform: skew(-2deg) scale(1.03);
+            box-shadow: 0 0 30px rgba(243, 175, 25, 0.7);
         }
         .fn-content {
             transform: skew(2deg);
         }
         .fn-text-shadow {
-            text-shadow: 2px 2px 0 #000, -1px -1px 0 #7a28cb, 1px -1px 0 #7a28cb, -1px 1px 0 #7a28cb, 1px 1px 0 #7a28cb;
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #F3AF19, 1px -1px 0 #F3AF19, -1px 1px 0 #F3AF19, 1px 1px 0 #F3AF19;
         }
 
         /* Roblox Tech Theme Styles */
         .roblox-tech-card {
-            background: rgba(13, 25, 42, 0.9);
+            background: rgba(13, 25, 42, 0.7);
             border: 1px solid #00FBFF;
             box-shadow: 0 0 15px rgba(0, 251, 255, 0.3), inset 0 0 10px rgba(0, 251, 255, 0.1);
             position: relative;
             overflow: hidden;
+            transition: transform 0.4s ease;
+            backdrop-filter: blur(12px);
+        }
+        .roblox-tech-card:hover {
+            transform: translateY(-5px);
         }
         .roblox-tech-card::before {
             content: '';
@@ -280,11 +283,17 @@
             z-index: 9999;
             transform: translateY(100px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .notification-toast.show {
             transform: translateY(0);
             opacity: 1;
+        }
+        
+        /* Backdrop Blur Helpers */
+        .glass-panel {
+            background: rgba(27, 27, 28, 0.5);
+            backdrop-filter: blur(12px);
         }
     </style>
 <script id="tailwind-config">
@@ -382,8 +391,8 @@
             }
         }
     </script>
-</head>
-<body class="text-on-surface font-body-md min-h-screen pb-32">
+<style>.scroll-reveal { transition-duration: 300ms !important; transform: translateY(10px) !important; }</style><style>.delay-100 { transition-delay: 30ms !important; } .delay-200 { transition-delay: 60ms !important; } .delay-300 { transition-delay: 90ms !important; } .delay-400 { transition-delay: 120ms !important; } .delay-500 { transition-delay: 150ms !important; } .delay-600 { transition-delay: 180ms !important; }</style><style>.animate-float { animation-duration: 1.5s !important; }</style></head>
+<body class="text-on-surface font-body-md min-h-screen pb-32 bg-transparent">
 <!-- Custom Cursor -->
 <div id="cursor-dot"></div>
 <div id="cursor-trail"></div>
@@ -393,10 +402,10 @@
 <div class="notification-toast" id="notif-toast"></div>
 <!-- Background Shader -->
 <div class="fixed inset-0 w-full h-full z-[-1]" style="display:block;">
-<canvas id="shader-canvas-ANIMATION_17" style="display:block;width:100%;height:100%"></canvas>
+<canvas id="shader-canvas" style="display:block;width:100%;height:100%"></canvas>
 <script>
 (function() {
-  const canvas = document.getElementById('shader-canvas-ANIMATION_17');
+  const canvas = document.getElementById('shader-canvas');
 
   function syncSize() {
     const w = canvas.clientWidth  || 1280;
@@ -422,7 +431,6 @@ void main() {
   const fs = `precision highp float;
 uniform float u_time;
 uniform vec2 u_resolution;
-uniform float u_scrollY;
 varying vec2 v_texCoord;
 
 float hash(vec2 p) {
@@ -443,40 +451,41 @@ float noise(vec2 p) {
 }
 
 void main() {
-    // Adjust uv.y based on scroll to simulate moving through the shader
     vec2 uv = v_texCoord;
-    float scrollOffset = u_scrollY * 0.5; // Tweak this for transition speed
-    float yPos = uv.y - scrollOffset;
+    
+    // Pixelation for that gaming feel
+    float pixelScale = 128.0;
+    vec2 p_uv = floor(uv * pixelScale) / pixelScale;
 
-    // Transition points based on Y coordinate (simulated scrolling)
-    // We reverse the mapping so scrolling down moves from Minecraft -> Fortnite -> Roblox
-    float normalizedY = fract(yPos); // Basic loop or clamp depending on need. Let's use a simpler mapping.
+    // Scroll-based theme blending logic
+    // We use uv.y as a proxy for scroll position in this simple full-page shader implementation,
+    // though in a real scroll it would be tied to a uniform. Here we mix by Y coordinate.
     
-    // Simpler mapping: based purely on scroll percentage passed from JS
-    float scrollPct = clamp(u_scrollY, 0.0, 1.0);
-    
-    // Minecraft Grass (Top)
-    vec3 minecraftGreen = mix(vec3(0.24, 0.44, 0.12), vec3(0.44, 0.68, 0.22), noise(uv * 100.0 + u_time * 0.1));
-    
-    // Fortnite Purple (Middle)
-    vec3 fortnitePurple = mix(vec3(0.2, 0.05, 0.4), vec3(0.4, 0.1, 0.7), noise(uv * 50.0 - u_time * 0.2));
-    
-    // Roblox Blue/Grey (Bottom)
-    vec3 robloxTech = mix(vec3(0.05, 0.1, 0.2), vec3(0.1, 0.3, 0.5), noise(uv * 80.0 + u_time * 0.05));
+    float mc_mask = smoothstep(0.66, 1.0, uv.y);
+    float fn_mask = smoothstep(0.33, 0.45, uv.y) * (1.0 - smoothstep(0.66, 0.75, uv.y));
+    float rb_mask = 1.0 - smoothstep(0.33, 0.45, uv.y);
 
-    // Smooth blending based on scroll percentage
-    vec3 finalColor;
-    if (scrollPct < 0.33) {
-        finalColor = mix(minecraftGreen, fortnitePurple, smoothstep(0.1, 0.33, scrollPct));
-    } else if (scrollPct < 0.66) {
-        finalColor = mix(fortnitePurple, robloxTech, smoothstep(0.4, 0.66, scrollPct));
-    } else {
-        finalColor = robloxTech;
-    }
+    // Minecraft Theme (Top)
+    vec3 mc_color = mix(vec3(0.24, 0.44, 0.12), vec3(0.44, 0.68, 0.22), noise(p_uv * 10.0 + u_time * 0.1));
+    mc_color += (noise(p_uv * 40.0) - 0.5) * 0.1; // Grit
     
-    // Add pixelation grit
-    float grit = (noise(uv * 200.0) - 0.5) * 0.1;
-    finalColor += grit;
+    // Fortnite Theme (Middle)
+    vec3 fn_color = mix(vec3(0.2, 0.05, 0.4), vec3(0.8, 0.6, 0.1), noise(p_uv * 8.0 - u_time * 0.2));
+    fn_color *= 0.8 + 0.2 * sin(u_time * 0.5 + p_uv.x * 3.0); // Pulse
+    
+    // Roblox Theme (Bottom)
+    vec3 rb_color = mix(vec3(0.05, 0.1, 0.15), vec3(0.0, 0.8, 0.9), noise(p_uv * 15.0 + u_time * 0.05));
+    float grid = step(0.95, fract(p_uv.x * 20.0)) + step(0.95, fract(p_uv.y * 20.0));
+    rb_color += grid * 0.15; // Tech grid
+
+    vec3 finalColor = mc_color * mc_mask + fn_color * fn_mask + rb_color * rb_mask;
+    
+    // Ambient breathing
+    finalColor *= 0.9 + 0.1 * sin(u_time * 0.3);
+    
+    // Vignette
+    float vig = smoothstep(1.5, 0.5, length(uv - 0.5) * 2.0);
+    finalColor *= mix(0.7, 1.0, vig);
 
     gl_FragColor = vec4(finalColor, 1.0);
 }`;
@@ -499,21 +508,12 @@ void main() {
   gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
   const uTime = gl.getUniformLocation(prog, 'u_time');
   const uRes = gl.getUniformLocation(prog, 'u_resolution');
-  const uScrollY = gl.getUniformLocation(prog, 'u_scrollY');
-
-  let currentScroll = 0;
-  window.addEventListener('scroll', () => {
-      // Calculate scroll percentage
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      currentScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-  });
 
   function render(t) {
     if (typeof ResizeObserver === 'undefined') syncSize();
     gl.viewport(0, 0, canvas.width, canvas.height);
     if (uTime) gl.uniform1f(uTime, t * 0.001);
     if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
-    if (uScrollY) gl.uniform1f(uScrollY, currentScroll);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     requestAnimationFrame(render);
   }
@@ -521,9 +521,9 @@ void main() {
 })();
 </script>
 </div>
-<main class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-12 pt-12 relative z-10 bg-surface-container-low/80 backdrop-blur-sm pb-12 rounded-xl mt-8 transition-colors duration-500" id="main-container">
+<main class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-12 pt-12 relative z-10 pb-12 rounded-xl mt-8" id="main-container">
 <!-- Header Section (Minecraft) -->
-<header class="flex flex-col items-center justify-center text-center gap-4 fade-in-up">
+<header class="flex flex-col items-center justify-center text-center gap-4 scroll-reveal">
 <div class="relative mc-gold-border bg-surface p-1 shadow-lg animate-float">
 <img class="w-32 h-32 object-cover pixelated" data-alt="Blocky Minecraft-style character avatar of John" src="https://lh3.googleusercontent.com/aida/AP1WRLtZuA8xpaG3sMaZ4WoXRhJp2A6_Q4v-m87gREcHOrEqeotKuSqcwy6kxIpoDtnfA4oNu46fscsF8arRB1XiC6zeVB8UZrEHr_MKVmcu9iMroeyiqw28bvWLKead4sLhBp2PdSCKU-7VEqhYD1LxNyJFnbi5E5k3nMJ2ZPBmghWFQBxfyMdslBXyKC1WooLoYNU4HSJLibevG7CTxK_umJqgXtyNy1rzmzFqJnBRFuijkHkAzw4vEOWtEKZe"/>
 </div>
@@ -536,9 +536,10 @@ void main() {
 </div>
 </div>
 </header>
+<div class="glass-panel p-6 rounded-xl flex flex-col gap-12 scroll-reveal delay-100">
 <!-- Socials Section (Minecraft) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-100">
-<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY SOCIALS</h2>
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY SOCIALS</h2>
 <div class="flex flex-wrap justify-center gap-4">
 <button class="mc-button px-6 py-3 flex items-center gap-3 text-white" onclick="showNotification('Opening TikTok...')">
 <span class="material-symbols-outlined">music_note</span>
@@ -551,22 +552,28 @@ void main() {
 </div>
 </section>
 <!-- Photos Section (Minecraft) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-200">
-<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY PHOTOS</h2>
-<div class="grid grid-cols-2 gap-4 w-full">
-<div class="mc-wood-border p-1 bg-[#483018] col-span-2 md:col-span-1" onclick="showNotification('Viewing Photo 1...')">
-<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform cursor-none" data-alt="Minecraft style framed painting of a person walking on a path with trees" src="https://lh3.googleusercontent.com/aida/AP1WRLtQfDXV4i8H3Haa03P1-SmCRS7lVA4xdVLnB7hsqFhzUBW0zVwto4LiJQxQHVIQUqizARYPbkrpE9T-wh0tKSQ6Yx5rhTo55d3HVOz0EIQZ3PXvvHjjSu1iGc7AGFJtKmK6iylHRm0cSDVpgZ0tQ2BPgfSkVxf8-LNoDjmUPedr3auvETVDnu3tCWk96_Whp1lAheUVyEF6t8kYINkAvRGJzjE5uzgIZKNCze4f1-DtltiNj5-P5TWoyNTL"/>
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY PHOTOS</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+<div class="mc-wood-border p-1 scroll-reveal" onclick="showNotification('Viewing Photo 1...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 1" src="https://lh3.googleusercontent.com/aida/AP1WRLtQfDXV4i8H3Haa03P1-SmCRS7lVA4xdVLnB7hsqFhzUBW0zVwto4LiJQxQHVIQUqizARYPbkrpE9T-wh0tKSQ6Yx5rhTo55d3HVOz0EIQZ3PXvvHjjSu1iGc7AGFJtKmK6iylHRm0cSDVpgZ0tQ2BPgfSkVxf8-LNoDjmUPedr3auvETVDnu3tCWk96_Whp1lAheUVyEF6t8kYINkAvRGJzjE5uzgIZKNCze4f1-DtltiNj5-P5TWoyNTL"/>
 </div>
-<div class="mc-wood-border p-1 bg-[#483018] col-span-1 md:col-span-1" onclick="showNotification('Viewing Photo 2...')">
-<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform cursor-none" data-alt="Minecraft style framed painting of trees and light" src="https://lh3.googleusercontent.com/aida/AP1WRLukqQMxfFtkQPvvhcDDdqpsH9L8FzYzZH-EnBSNiieu--L0stLBoQapbinzRxo07YMyzI7rl4hfFN-h3OtQDUSE8wMhavmD_wllswefIHJ_5e2a8EBFSLbBi4tJr6xAan1swqR_fvcxScG6jcuvVve7mWHcm3_aeOr-iID9GMCGYEbVu_2S4jM2Vo-_IpsSwZC7M_yQx9yzbB5HThdZw6fkeNVjRzzwAbP_ReOfuNDxhj7YvIlQZFsfMvPR"/>
+<div class="mc-wood-border p-1 scroll-reveal delay-100" onclick="showNotification('Viewing Photo 2...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 2" src="https://lh3.googleusercontent.com/aida/AP1WRLukqQMxfFtkQPvvhcDDdqpsH9L8FzYzZH-EnBSNiieu--L0stLBoQapbinzRxo07YMyzI7rl4hfFN-h3OtQDUSE8wMhavmD_wllswefIHJ_5e2a8EBFSLbBi4tJr6xAan1swqR_fvcxScG6jcuvVve7mWHcm3_aeOr-iID9GMCGYEbVu_2S4jM2Vo-_IpsSwZC7M_yQx9yzbB5HThdZw6fkeNVjRzzwAbP_ReOfuNDxhj7YvIlQZFsfMvPR"/>
+</div>
+<div class="mc-wood-border p-1 scroll-reveal delay-200" onclick="showNotification('Viewing Photo 3...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 3" src="https://lh3.googleusercontent.com/aida/AP1WRLvdi8TaN_9cbQDympl5vccEuis2MH3dK_Lvp_DPmCs9tW3Yw4B3ryiymleiZkh5s7YsLfdq672EF_DUMtlLZLipe6JzM5kivtf24H0cSE-aB5ZbXwuIMr3rXr50BEZiXArtgItG854k2I9JQSvNVZrhDNgsMEl0_truQoxrpK2Tu_FkVrboYpaiMaAFOiHC4m2J-NVB_SIuadKQOvvOdGTeFJN-_yI5i4yoRy_agS26zQMQILu66ttpGn8"/>
+</div>
+<div class="mc-wood-border p-1 scroll-reveal delay-300" onclick="showNotification('Viewing Photo 4...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 4" src="https://lh3.googleusercontent.com/aida/AP1WRLuCEsLDphfW0NVW6Gqzi7_myRaNtGle3k4TyZZYKLWg7mI2fYY1Pv_ahSCufPKJuiJtGIDS4m-kexuljDkWX5_EBultrPHPJLq1Rwf5Q-3iOsqxQHhMHJdFcrCCrmPRtwhDDC0TnqitVhlMm0r0inHEcZxwfx5D4Q6T42Jr-WtPIkZDEau7fbp7n0mjWnMMZGC72NR1gZLS53vSeGL3ynEbnwyKnFWIOAeXBunJ9X-tPpd8nlPVpi9AVrlY"/>
 </div>
 </div>
 </section>
 <!-- Favorite Song Section (Minecraft) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-300">
-<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY FAVORITE SONG</h2>
-<div class="mc-border bg-surface-container-high w-full p-4 flex items-center gap-4">
-<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mc-text-shadow text-white hover:opacity-80 transition-transform hover:scale-105 active:scale-95" onclick="showNotification('Playing cool boi...')" style="cursor: none;">
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY FAVORITE SONG</h2>
+<div class="mc-border bg-surface-container-high/80 backdrop-blur-md w-full p-4 flex items-center gap-4 transition-transform duration-500 hover:-translate-y-1 scroll-reveal">
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mc-text-shadow text-white hover:opacity-80 transition-all hover:scale-105 active:scale-95 duration-300" onclick="showNotification('Playing cool boi...')" style="cursor: none;">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
 </button>
 <div class="flex flex-col">
@@ -575,32 +582,29 @@ void main() {
 </div>
 </div>
 </section>
-<!-- Favorite Games Section (Fortnite Theme) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-400 mt-8">
-<h2 class="font-label-caps text-label-caps text-[#c084fc] tracking-[0.2em] fn-text-shadow bg-[#2e1065]/80 px-4 py-1 rounded border border-[#7e22ce]">MY FAVORITE GAMES</h2>
-<div class="w-full fn-card p-2 relative group overflow-hidden">
-<div class="absolute inset-0 bg-[#7e22ce]/20 group-hover:bg-[#7e22ce]/10 transition-colors z-10 pointer-events-none"></div>
-<div class="fn-content relative z-20">
-<img alt="Fortnite Background" class="w-full h-64 object-cover border-2 border-[#d8b4fe]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi-dJ4-BTsJmR1Bk7xHW0uLyzWx5-kHxASPOqPQ9qSCv1ex_QammFzqY-6UjYS__19vjZQVKN-W8LVkGeFVLRP5UfXPZzEKaChJHc3TB_-ymlMrktDLvryUq8BjQl4RWbT_sOgEl49Dbo-w33ip821Qtp7rx_S34VBkLP4BxuJ5sWJEkiDtnjA9rkO1xhTnBeM_udro-tBiAJzubxDtVGv_xTmRrLF_N60AdF37YsOvFFfHmpOTIz8fn6wHhao9bN2OAxtwX2ROerX"/>
-<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 to-transparent">
-<h3 class="font-headline-lg text-headline-md text-white fn-text-shadow italic uppercase">Fortnite</h3>
-<p class="font-label-caps text-[#e9d5ff] mt-1">Battle Royale | Ranked Unreal</p>
 </div>
+<!-- Favorite Games Section (Fortnite Theme) -->
+<section class="flex flex-col items-center gap-6 mt-16 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#F3AF19] tracking-[0.2em] fn-text-shadow bg-[#673AB7]/80 px-4 py-1 rounded border border-[#F3AF19] backdrop-blur-md">MY FAVORITE GAMES</h2>
+<div class="w-full fn-card p-6 relative group overflow-hidden flex flex-col items-center justify-center min-h-[160px]">
+<div class="absolute inset-0 bg-[#F3AF19]/10 group-hover:bg-[#F3AF19]/20 transition-colors duration-500 z-10 pointer-events-none"></div>
+<div class="fn-content relative z-20 text-center">
+<h3 class="font-headline-lg text-headline-md text-white fn-text-shadow italic uppercase">Fortnite</h3>
+<p class="font-label-caps text-[#F3AF19] mt-2 drop-shadow-md">Battle Royale | Ranked Unreal</p>
 </div>
 </div>
 </section>
 <!-- Professional Specialization (Roblox Coding Theme) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-500 mt-8">
-<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text">MY SPECIALIZATION</h2>
+<section class="flex flex-col items-center gap-6 mt-16 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY SPECIALIZATION</h2>
 <div class="roblox-tech-card w-full p-6 flex flex-col gap-4">
-<img alt="Roblox Studio Coding" class="w-full h-48 object-cover border border-[#00FBFF]/50 opacity-80 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtALtrI3Mdjqzedtn78j2kL4HRum5XsBG8tGyCrfyeonn0cQWNq1P6BvNtj-GrFx4XZXPgNO8tj33MuaESMvAeR36Sg52gF1WBkRkt3J-TMmW3iFQ3QTPJcp_21RFQjnyLhX65LzEC5jUFh-GXFEFBPJty-UHDTdcCp5dpvTx8TnGrM0ffGoPNY7PnahxcWqSMt94Pai93xorR3UMp_lRw82qfKqw2v_bnh6nC8lGZFF6XFxkK3DK4qoqLVzwXL0tbMTyHsdVZxlsL"/>
-<div class="flex flex-col gap-2 mt-2">
+<div class="flex flex-col gap-2">
 <h3 class="font-code-sm text-lg text-[#00FBFF] flex items-center gap-2">
 <span class="material-symbols-outlined text-sm">terminal</span>
 <span class="roblox-tech-text">&gt; Roblox_Developer.lua</span>
 </h3>
-<div class="bg-black/50 p-4 border border-[#00FBFF]/30 font-code-sm text-sm text-stone-light">
-<p class="text-[#85FF00]">local</p> developer = {
+<div class="bg-black/60 backdrop-blur-md p-4 border border-[#00FBFF]/30 font-code-sm text-sm text-stone-light transition-colors duration-500 hover:bg-black/80">
+<p class="text-[#85FF00] inline">local</p> developer = {
 <br/>  skills = {<span class="text-[#78A7FF]">"Luau"</span>, <span class="text-[#78A7FF]">"UI/UX"</span>, <span class="text-[#78A7FF]">"Systems"</span>},
 <br/>  status = <span class="text-[#ffdcbf]">"Building"</span>
 <br/>}
@@ -608,62 +612,75 @@ void main() {
 </div>
 </div>
 </section>
-<!-- Roblox Details Section (Original Theme modified slightly to fit flow) -->
-<section class="flex flex-col items-center gap-6 fade-in-up delay-500 mt-8">
-<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY ROBLOX DETAILS</h2>
-<div class="mc-border bg-surface-variant w-full p-6 flex flex-col gap-4 relative">
+<!-- Roblox Details Section -->
+<section class="flex flex-col items-center gap-6 mt-8 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY ROBLOX DETAILS</h2>
+<div class="roblox-tech-card w-full p-6 flex flex-col gap-4 relative transition-transform duration-500 hover:-translate-y-1">
 <!-- Decorative element to look like a UI tab -->
-<div class="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-[#00FBFF]"></div>
 <div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-stone-light">person</span>
-<h3 class="font-headline-md text-headline-md text-white">Profile: John</h3>
+<span class="material-symbols-outlined text-[#00FBFF]">person</span>
+<h3 class="font-headline-md text-headline-md text-white roblox-tech-text">Profile: John</h3>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 <div class="flex flex-col gap-1">
-<div class="flex items-center gap-2 text-primary">
+<div class="flex items-center gap-2 text-[#00FBFF]">
 <span class="material-symbols-outlined text-sm">badge</span>
-<span class="font-label-caps text-label-caps">Identity</span>
+<span class="font-label-caps text-label-caps roblox-tech-text">Identity</span>
 </div>
-<p class="font-code-sm text-code-sm text-on-surface-variant">Handle: @pokkiexx3</p>
-<p class="font-code-sm text-code-sm text-on-surface-variant">ID: 8593516066</p>
+<p class="font-code-sm text-code-sm text-stone-light">Handle: @pokkiexx3</p>
+<p class="font-code-sm text-code-sm text-stone-light">ID: 8593516066</p>
 </div>
 <div class="flex flex-col gap-1">
-<div class="flex items-center gap-2 text-primary">
+<div class="flex items-center gap-2 text-[#00FBFF]">
 <span class="material-symbols-outlined text-sm">group</span>
-<span class="font-label-caps text-label-caps">Socials</span>
+<span class="font-label-caps text-label-caps roblox-tech-text">Socials</span>
 </div>
-<p class="font-code-sm text-code-sm text-on-surface-variant">Friends: 96 | Followers: 32</p>
+<p class="font-code-sm text-code-sm text-stone-light">Friends: 96 | Followers: 32</p>
 </div>
 <div class="flex flex-col gap-1">
-<div class="flex items-center gap-2 text-xp-green">
+<div class="flex items-center gap-2 text-[#85FF00]">
 <span class="material-symbols-outlined text-sm">history</span>
-<span class="font-label-caps text-label-caps">History</span>
+<span class="font-label-caps text-label-caps text-[#85FF00] drop-shadow-[0_0_5px_#85FF00]">History</span>
 </div>
-<p class="font-code-sm text-code-sm text-on-surface-variant">Joined: 06/02/2025</p>
+<p class="font-code-sm text-code-sm text-stone-light">Joined: 06/02/2025</p>
 </div>
 <div class="flex flex-col gap-1 md:col-span-2">
-<div class="flex items-center gap-2 text-secondary">
+<div class="flex items-center gap-2 text-[#78A7FF]">
 <span class="material-symbols-outlined text-sm">edit_note</span>
-<span class="font-label-caps text-label-caps">Bio</span>
+<span class="font-label-caps text-label-caps text-[#78A7FF] drop-shadow-[0_0_5px_#78A7FF]">Bio</span>
 </div>
-<p class="font-code-sm text-code-sm text-on-surface-variant italic">hey am john tm second account hacked with 1k followers ✌️🥶🥀</p>
+<p class="font-code-sm text-code-sm text-stone-light italic">hey am john tm second account hacked with 1k followers ✌️🥶🥀</p>
 </div>
 </div>
 </div>
 </section>
+<!-- TikTok Feed Section -->
+<section class="flex flex-col items-center gap-6 mt-8 w-full scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY TIKTOK POSTS</h2>
+<div class="w-full bg-[#0d192a]/60 backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,251,255,0.3)] flex justify-center border border-[#00FBFF]/50 p-4">
+<blockquote cite="https://www.tiktok.com/@neoztar" class="tiktok-embed" data-embed-type="creator" data-unique-id="neoztar" style="max-width: 780px; min-width: 288px;">
+<section>
+<a href="https://www.tiktok.com/@neoztar?refer=creator_embed" target="_blank">@neoztar</a>
+</section>
+</blockquote>
+<script async="" src="https://www.tiktok.com/embed.js"></script>
+</div>
+</section>
 <!-- Sync Section -->
-<section class="flex flex-col items-center gap-4 mt-8 fade-in-up delay-500">
-<div class="mc-border bg-surface-container w-full p-2 flex items-center justify-between">
-<input class="bg-background border-2 border-outline-variant text-on-surface px-4 py-2 font-code-sm text-code-sm w-full max-w-[200px] focus:outline-none focus:border-outline" placeholder="Set Identity..." style="cursor: none;" type="text"/>
-<button class="mc-button bg-primary px-6 py-2 ml-4 flex-shrink-0" onclick="triggerVoidSync()">
-<span class="font-label-caps text-label-caps text-white mc-text-shadow">SYNC</span>
+<section class="flex flex-col items-center gap-4 mt-8 scroll-reveal">
+<div class="roblox-tech-card w-full p-4 flex items-center justify-between transition-transform duration-500 hover:-translate-y-1">
+<input class="bg-black/50 border border-[#00FBFF]/50 text-[#00FBFF] px-4 py-2 font-code-sm text-code-sm w-full max-w-[200px] focus:outline-none focus:border-[#00FBFF] focus:shadow-[0_0_10px_#00FBFF] transition-all duration-300 placeholder:text-[#00FBFF]/50" placeholder="Set Identity..." style="cursor: none;" type="text"/>
+<button class="bg-transparent border border-[#00FBFF] px-6 py-2 ml-4 flex-shrink-0 hover:bg-[#00FBFF]/20 hover:shadow-[0_0_15px_#00FBFF] transition-all duration-300" onclick="triggerVoidSync()">
+<span class="font-label-caps text-label-caps text-[#00FBFF] roblox-tech-text">SYNC</span>
 </button>
 </div>
 </section>
 </main>
 <!-- Footer -->
-<footer class="flex flex-col items-center justify-center w-full py-gutter mb-20 mt-12 bg-transparent opacity-50 relative z-10">
-<p class="font-code-sm text-code-sm text-stone-dark tracking-widest uppercase bg-background/50 px-2 rounded">sam is cool asf</p>
+<footer class="flex flex-col items-center justify-center w-full py-gutter mb-20 mt-12 bg-transparent opacity-70 hover:opacity-100 transition-opacity duration-500 relative z-10 gap-2">
+<p class="font-code-sm text-code-sm text-stone-light tracking-widest uppercase bg-surface-container-low/50 backdrop-blur-sm px-3 py-1 rounded">sam is cool asf</p>
+<a class="font-code-sm text-[#00FBFF] hover:text-white underline transition-colors duration-300 drop-shadow-[0_0_5px_#00FBFF]" href="https://johntminfo.github.io/" target="_blank">https://johntminfo.github.io/</a>
 </footer>
 <script>
     // Custom Cursor Logic
@@ -694,7 +711,7 @@ void main() {
     });
 
     // Interactive hover effects for custom cursor
-    const interactiveElements = document.querySelectorAll('button, a, input, .mc-wood-border');
+    const interactiveElements = document.querySelectorAll('button, a, input, .mc-wood-border, .fn-card, .roblox-tech-card');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorDot.style.width = '12px';
@@ -724,6 +741,26 @@ void main() {
             showNotification('Sync Complete.');
         }, 3000);
     }
+    
+    // Random Void Sync Fragments
+    setInterval(() => {
+        if(Math.random() > 0.7) {
+            const frag = document.createElement('div');
+            frag.className = 'fixed text-[#00FBFF] font-code-sm text-xs pointer-events-none z-[9999] opacity-0 transition-opacity duration-1000';
+            frag.style.left = (Math.random() * 80 + 10) + 'vw';
+            frag.style.top = (Math.random() * 80 + 10) + 'vh';
+            frag.innerText = 'VOID SYNC // ' + Math.random().toString(36).substring(7).toUpperCase();
+            document.body.appendChild(frag);
+            
+            requestAnimationFrame(() => {
+                frag.style.opacity = '0.7';
+                setTimeout(() => {
+                    frag.style.opacity = '0';
+                    setTimeout(() => frag.remove(), 1000);
+                }, 1500);
+            });
+        }
+    }, 2500);
 
     // Notifications
     const toast = document.getElementById('notif-toast');
@@ -739,24 +776,16 @@ void main() {
         }, 2500);
     }
 
-    // Scroll Theme Transition logic (updating container background tint)
-    const mainContainer = document.getElementById('main-container');
-    window.addEventListener('scroll', () => {
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        if(maxScroll <= 0) return;
-        const scrollPct = window.scrollY / maxScroll;
-        
-        if (scrollPct < 0.33) {
-            // Minecraft Theme bg tint
-            mainContainer.style.backgroundColor = 'rgba(27, 27, 28, 0.8)';
-        } else if (scrollPct < 0.66) {
-            // Fortnite Theme bg tint
-            mainContainer.style.backgroundColor = 'rgba(46, 16, 101, 0.8)'; // deep purple tint
-        } else {
-            // Roblox Theme bg tint
-            mainContainer.style.backgroundColor = 'rgba(13, 25, 42, 0.8)'; // tech blue/dark tint
-        }
-    });
+    // Scroll Reveal Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up-visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
 </script>
 </body></html>
