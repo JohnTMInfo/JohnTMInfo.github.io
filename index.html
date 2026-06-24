@@ -1,277 +1,762 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John™ | Profile</title>
-    <style>
-        :root {
-            --text-primary: #f8f8f8;
-            --text-secondary: #a1a1aa;
-            --card-base: rgba(8, 8, 8, 0.75);
-            --border-subtle: rgba(255, 255, 255, 0.1);
-            --card-radius: 20px;
-            --accent: #22d3ee;
-            --roblox-red: #f23f42;
-        }
 
-        /* CUSTOM CURSOR & BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>John™ - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom Minecraft-esque styling */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: var(--text-primary);
-            display: flex; flex-direction: column; align-items: center;
-            padding: 50px 20px; min-height: 100vh; overflow-x: hidden;
-            animation: backgroundCycle 15s infinite alternate ease-in-out;
+            background-color: #1b1b1c; /* Fallback */
+            cursor: none; /* Hide default cursor for custom cursor */
         }
 
-        /* DIGITAL LAYERS */
-        body::before {
-            content: ""; position: fixed; inset: 0; 
-            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Grain.png");
-            opacity: 0.04; pointer-events: none; z-index: 5000;
-        }
-        .scanlines::after {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.01));
-            z-index: 2000; background-size: 100% 3px, 3px 100%; pointer-events: none;
+        .mc-border {
+            border: 4px solid;
+            border-top-color: #a2d577; /* primary */
+            border-left-color: #a2d577;
+            border-right-color: #3e6918; /* inverse-primary */
+            border-bottom-color: #3e6918;
         }
 
-        @keyframes backgroundCycle {
-            0%, 100% { background-color: #050505; --accent: #22d3ee; }
-            33% { background-color: #1a0b2e; --accent: #9d1dfd; }
-            66% { background-color: #0b1a2e; --accent: #3b82f6; }
+        .mc-wood-border {
+            border: 4px solid;
+            border-top-color: #d3ae8e; /* on-secondary-container */
+            border-left-color: #d3ae8e;
+            border-right-color: #5c4128; /* secondary-container */
+            border-bottom-color: #5c4128;
+            background-color: #e6bf9e; /* secondary */
+            color: #2b1703; /* on-secondary-fixed */
         }
 
-        /* GLITCH & CHAOS */
-        .master-glitch { filter: invert(1) contrast(3); animation: shake 0.1s infinite; }
-        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } }
-        .glitch-fragment { position: fixed; width: 40px; height: 2px; background: var(--accent); z-index: 5; pointer-events: none; opacity: 0.4; }
-        .corner-alert { position: fixed; font-family: 'Courier New', Courier, monospace; font-size: 8px; color: var(--accent); opacity: 0.6; z-index: 3000; pointer-events: none; text-transform: uppercase; }
-        @keyframes ghostFade { 0% { opacity: 0; transform: scale(0.9); } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { opacity: 0; transform: scale(1.1); } }
-
-        /* ICONS & CURSOR */
-        @keyframes floatPop {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        .mc-gold-border {
+            border: 4px solid;
+            border-top-color: #bdf290; /* primary-fixed */
+            border-left-color: #bdf290;
+            border-right-color: #275000; /* on-primary-fixed-variant */
+            border-bottom-color: #275000;
         }
-        .float-icon { position: fixed; width: 50px; height: 50px; z-index: 1500; animation: floatPop 8s linear forwards; }
-        .cursor-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; box-shadow: 0 0 15px var(--accent); transform: translate(-50%, -50%); }
 
-        /* NOTIFICATIONS */
-        .notification {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px;
-            padding: 12px 20px; display: flex; align-items: center; gap: 12px;
-            z-index: 9999; display: none; width: 90%; max-width: 320px;
+        .mc-button {
+            border: 4px solid;
+            border-top-color: #bdf290; /* primary-fixed */
+            border-left-color: #bdf290;
+            border-right-color: #275000; /* on-primary-fixed-variant */
+            border-bottom-color: #275000;
+            background-color: #6e9e47; /* primary-container */
+            transition: all 0.15s ease-in-out;
+            position: relative;
+            cursor: none;
         }
-        .notif-active { display: flex; animation: notifSlide 5s ease-in-out forwards; }
-        @keyframes notifSlide {
-            0% { transform: translate(-50%, -100px); opacity: 0; }
-            15%, 85% { transform: translate(-50%, 20px); opacity: 1; }
-            100% { transform: translate(-50%, -100px); opacity: 0; }
+
+        .mc-button:hover {
+            transform: scale(1.05);
         }
-        .notif-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
-        /* LAYOUT & CARDS */
-        .container { width: 100%; max-width: 400px; position: relative; z-index: 10; text-align: center; }
-        .avatar { width: 100px; height: 100px; border-radius: var(--card-radius); border: 2px solid var(--accent); margin-bottom: 15px; cursor: pointer; transition: 0.3s; }
-        .avatar:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
-        .category-label { font-size: 10px; font-weight: 900; color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin: 40px 0 15px 0; display: block; opacity: 0.6; }
-        
-        .social-chips { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
-        .chip { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--card-base); border: 1px solid var(--border-subtle); border-radius: 100px; color: white; text-decoration: none; font-weight: 700; font-size: 13px; }
-        .chip svg { width: 16px; height: 16px; fill: white; }
-
-        .gallery { display: flex; gap: 12px; overflow-x: auto; margin-bottom: 30px; padding: 10px 0; scrollbar-width: none; }
-        .gallery img { min-width: 280px; height: 280px; object-fit: cover; border-radius: var(--card-radius); border: 1px solid var(--border-subtle); }
-
-        .audio-player { background: var(--card-base); border: 1px solid var(--border-subtle); border-radius: var(--card-radius); padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; text-align: left; }
-        .play-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--accent); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--accent); }
-
-        /* ROBLOX DISCORD STYLE DETAILS */
-        .roblox-bot-card { background: #2b2d31; border-left: 4px solid var(--roblox-red); border-radius: 8px; padding: 15px; text-align: left; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .rb-header { font-weight: 700; color: #fff; margin-bottom: 12px; font-size: 15px; display: flex; align-items: center; gap: 8px;}
-        .rb-section { margin-bottom: 12px; }
-        .rb-title { font-weight: 700; color: #fff; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-        .rb-content { color: #dbdee1; font-size: 13px; margin-left: 24px; line-height: 1.4; }
-
-        .leaderboard-card { background: var(--card-base); border: 1px solid var(--border-subtle); border-radius: var(--card-radius); padding: 20px; text-align: left; }
-        .lb-me { background: rgba(34, 211, 238, 0.15); border-radius: 10px; padding: 12px; border: 1px solid rgba(34, 211, 238, 0.4); display: flex; justify-content: space-between; align-items: center; }
-
-        .sync-card { background: var(--card-base); border: 1px solid var(--border-subtle); border-radius: 15px; padding: 15px; margin-top: 15px; margin-bottom: 40px; display: flex; gap: 10px; width: 100%; min-height: 60px; align-items: center; justify-content: center; }
-        .sync-card input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle); background: rgba(0,0,0,0.5); color: #fff; outline: none; }
-        .sync-card button { background: var(--accent); color: #000; font-weight: 900; padding: 10px 15px; border-radius: 8px; border: none; }
-        .sync-locked { color: var(--accent); font-weight: 900; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
-
-        #zoom-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9500; display: none; align-items: center; justify-content: center; touch-action: none; }
-        #zoomed-img { max-width: 90%; max-height: 85%; border-radius: 20px; border: 2px solid var(--accent); object-fit: contain; }
-
-        #achievement-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 260px;
-            background: rgba(10, 10, 10, 0.98); border: 2px solid var(--accent); border-radius: 24px;
-            padding: 25px; text-align: center; z-index: 9000; display: none; box-shadow: 0 0 50px var(--accent);
+        .mc-button:active {
+            border-top-color: #275000;
+            border-left-color: #275000;
+            border-right-color: #bdf290;
+            border-bottom-color: #bdf290;
+            transform: scale(0.95) translateY(4px);
         }
-        #achievement-modal img { width: 80px; height: 80px; margin-bottom: 12px; border-radius: 12px; }
-    </style>
-</head>
-<body id="main-body" class="scanlines">
 
-    <div class="cursor-dot" id="cursor"></div>
+        .mc-button:hover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    <div id="achievement-modal">
-        <img id="modal-img" src=""><h2 style="font-size: 14px; color: var(--accent); margin-bottom: 5px;">CAPTURED!</h2><p style="font-size: 11px; color: white; opacity: 0.7;" id="modal-aura-text">+100 AURA SYNCED</p>
-    </div>
+        .mc-text-shadow {
+            text-shadow: 2px 2px 0 #000;
+        }
 
-    <div id="zoom-overlay"><img id="zoomed-img" src=""></div>
+        .xp-bar-container {
+            border: 2px solid #000;
+            background-color: #131313; /* background */
+            position: relative;
+            height: 24px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
 
-    <div class="notification" id="notif-music"><div class="notif-icon">🎵</div><div id="song-notif-text" style="font-size: 12px; font-weight: 700;">Starting Driver...</div></div>
-    <div class="notification" id="notif-discord" onclick="window.open('https://discord.gg/EqJT7Yx58', '_blank')"><div class="notif-icon" style="background: #5865F2;">💬</div><div style="font-size: 12px; font-weight: 700;">Discord Server<span style="display: block; font-size: 10px; opacity: 0.6;">Click here to join us!</span></div></div>
-    <div class="notification" id="notif-gallery"><div class="notif-icon">💡</div><div style="font-size: 12px; font-weight: 700;">Gallery Tip<span style="display: block; font-size: 10px; opacity: 0.6;">Swipe left or right to see others!</span></div></div>
+        .xp-bar-fill {
+            background-color: #85FF00; /* xp-green */
+            height: 100%;
+            width: 100%; /* Assuming max AURA for now, adjust as needed */
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
 
-    <div class="container">
-        <img src="Untitled design.png" class="avatar" onclick="triggerGlitch()">
-        <h1 style="font-weight: 900; letter-spacing: -2px;">John™</h1>
-        <div id="aura-score" style="margin-bottom: 15px; font-size: 11px; font-weight: 800; color: var(--accent);">AURA: 0</div>
+        .pixelated {
+            image-rendering: pixelated;
+        }
 
-        <span class="category-label">MY SOCIALS</span>
-        <div class="social-chips">
-            <a href="https://www.tiktok.com/@neoztar" class="chip" target="_blank"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.33-.85.51-1.28 1.43-1.35 2.4-.04.41.01.82.17 1.2.3.74.82 1.34 1.54 1.63.76.34 1.53.3 2.3.03.8-.25 1.45-.79 1.84-1.53.24-.48.35-.98.35-1.51V.02z"/></svg>TikTok</a>
-            <a href="https://www.roblox.com/users/8593516066/profile" class="chip" target="_blank"><img src="1000035284-fotor-bg-remover-20260504165235.png" width="18"> Roblox</a>
-        </div>
-
-        <span class="category-label">MY PHOTOS</span>
-        <div class="gallery" id="photo-gallery">
-            <img src="LRM_20260424_121848.jpg" onclick="openGallery(this)"><img src="LRM_20260424_121524.jpg" onclick="openGallery(this)"><img src="LRM_20260424_121122.jpg" onclick="openGallery(this)"><img src="LRM_20260424_122043.jpg" onclick="openGallery(this)">
-        </div>
-
-        <span class="category-label">MY FAVORITE SONG</span>
-        <div class="audio-player">
-            <button class="play-btn" id="playToggle"><svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M8 5v14l11-7z"/></svg><svg id="pauseIcon" style="display:none" width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
-            <div class="song-info"><div class="song-title">song</div><div class="song-artist">cool boi</div></div>
-            <audio id="myAudio" loop><source src="snaptik_7566297191250152717_v3.mp4" type="audio/mp4"></audio>
-        </div>
-
-        <span class="category-label">MY ROBLOX DETAILS</span>
-        <div class="roblox-bot-card">
-            <div class="rb-header"><span>👽</span> Profile: John</div>
-            <div class="rb-section"><div class="rb-title"><span>🤓</span> Identity</div><div class="rb-content">Handle: @pokkiexx3<br>ID: 8593516066</div></div>
-            <div class="rb-section"><div class="rb-title"><span>🐬</span> Socials</div><div class="rb-content">Friends: 96 | Followers: 32</div></div>
-            <div class="rb-section"><div class="rb-title"><span>🐸</span> History</div><div class="rb-content">Joined: 06/02/2025</div></div>
-            <div class="rb-section"><div class="rb-title"><span>📝</span> Bio</div><div class="rb-content" style="font-style: italic;">hey am john tm second account hacked with 1k followers ✌️😭🥀</div></div>
-        </div>
-
-        <span class="category-label">MY TIKTOK POSTS</span>
-        <div class="tiktok-feed-box"><blockquote class="tiktok-embed" cite="https://www.tiktok.com/@neoztar" data-unique-id="neoztar" data-embed-type="creator"><section><a target="_blank" href="https://www.tiktok.com/@neoztar">@neoztar</a></section></blockquote></div>
-
-        <span class="category-label">AURA LEADERBOARD</span>
-        <div class="leaderboard-card">
-            <div class="lb-me"><div style="display:flex; gap:10px;"><span style="font-weight:900; color:var(--accent);">#1</span><span id="lb-my-name">Guest</span></div><span id="lb-my-score" style="font-weight:900; color:var(--accent);">0</span></div>
-        </div>
-
-        <div class="sync-card" id="sync-card">
-            <input type="text" id="username-input" placeholder="Set Identity..." maxlength="15">
-            <button onclick="saveIdentity()">SYNC</button>
-        </div>
-
-        <div id="sam-text" onclick="triggerGlitch()" style="margin-top:20px; font-size:10px; opacity:0.3; letter-spacing:5px; cursor:pointer;">sam is cool asf</div>
-    </div>
-
-    <script async src="https://www.tiktok.com/embed.js"></script>
-    <script>
-        let myUsername = localStorage.getItem('john_username') || '';
-        let aura = localStorage.getItem('john_aura') ? parseInt(localStorage.getItem('john_aura')) : 0;
-        const iconImages = ['1995-confusedpengu.png', '1785-pepeloading.png', '937928-alien-yap.gif', '734879-fishspinning.gif'];
-        let galleryImages = []; let currentSlide = 0;
-
-        // CHAOS ENGINE
-        const chaosEvents = [
-            () => { const el = document.createElement('div'); el.className = 'corner-alert'; el.style.top = Math.random() * 90 + '%'; el.style.left = Math.random() * 80 + '%'; const msgs = ['Void_Sync_0%', 'Signal_Stable', 'User_Identified', 'Aura_Critical']; el.innerText = msgs[Math.floor(Math.random()*msgs.length)]; el.style.animation = 'ghostFade 3s forwards'; document.body.appendChild(el); setTimeout(() => el.remove(), 3000); },
-            () => { const f = document.createElement('div'); f.className = 'glitch-fragment'; f.style.top = Math.random() * 100 + '%'; f.style.left = '-50px'; document.body.appendChild(f); f.animate([{ left: '-50px' }, { left: '110vw' }], { duration: 4000, easing: 'linear' }); setTimeout(() => f.remove(), 4000); },
-            () => { document.body.style.opacity = '0.8'; setTimeout(() => document.body.style.opacity = '1', 100); }
-        ];
-
-        // MOUSE TRAIL
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-            const trail = document.createElement('div'); trail.className = 'cursor-dot'; trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px';
-            trail.style.opacity = '0.3'; trail.style.transform = 'scale(0.5)'; document.body.appendChild(trail); setTimeout(() => trail.remove(), 400);
-        });
-
-        // SWIPE & ZOOM
-        let touchStartX = 0; let touchEndX = 0;
-        const overlay = document.getElementById('zoom-overlay');
-        overlay.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-        overlay.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; if(touchEndX < touchStartX-50) changeSlide(1); if(touchEndX > touchStartX+50) changeSlide(-1); });
-        overlay.onclick = e => { if(e.target.id === 'zoom-overlay') overlay.style.display = 'none'; };
-
-        // MUSIC PLAY LOGIC
-        const audio = document.getElementById('myAudio');
-        document.getElementById('playToggle').onclick = () => {
-            const playIcon = document.getElementById('playIcon'); const pauseIcon = document.getElementById('pauseIcon');
-            const notif = document.getElementById('notif-music');
-            const text = document.getElementById('song-notif-text');
-            if (audio.paused) { 
-                audio.play(); playIcon.style.display = 'none'; pauseIcon.style.display = 'block'; 
-                text.innerHTML = 'Now Playing<span style="display: block; font-size: 10px; opacity: 0.6;">song - cool boi</span>';
-                notif.classList.add('notif-active');
-                setTimeout(() => notif.classList.remove('notif-active'), 5000);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            else { audio.pause(); playIcon.style.display = 'block'; pauseIcon.style.display = 'none'; }
-        };
-
-        window.onload = function() {
-            updateUI();
-            for(let i=0; i<5; i++) { setTimeout(spawnIcon, i * 200); }
-            setInterval(triggerDiscordNotif, 30000);
-            setInterval(spawnIcon, 2500);
-            setInterval(() => chaosEvents[Math.floor(Math.random()*chaosEvents.length)](), 4500);
-            document.querySelectorAll('#photo-gallery img').forEach(img => galleryImages.push(img.src));
-        };
-
-        function triggerDiscordNotif() { const dNotif = document.getElementById('notif-discord'); dNotif.classList.add('notif-active'); setTimeout(() => dNotif.classList.remove('notif-active'), 5000); }
-        function triggerGalleryNotif() { const gNotif = document.getElementById('notif-gallery'); gNotif.classList.add('notif-active'); setTimeout(() => gNotif.classList.remove('notif-active'), 5000); }
-
-        function saveIdentity() {
-            const val = document.getElementById('username-input').value.trim();
-            if (val === "") return;
-            myUsername = val; localStorage.setItem('john_username', myUsername); updateUI();
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        function updateUI() {
-            document.getElementById('aura-score').innerText = "AURA: " + aura;
-            document.getElementById('lb-my-name').innerText = (myUsername || "Guest");
-            document.getElementById('lb-my-score').innerText = aura.toLocaleString();
-            if (myUsername !== "") { document.getElementById('sync-card').innerHTML = '<span class="sync-locked">Identity Locked: ' + myUsername + '</span>'; }
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
         }
 
-        function spawnIcon() {
-            const icon = document.createElement('div'); icon.className = 'float-icon';
-            const imgFile = iconImages[Math.floor(Math.random()*iconImages.length)];
-            icon.style.left = (Math.random() * 80 + 10) + '%';
-            icon.innerHTML = `<img src="${imgFile}" style="width:100%;">`;
-            icon.onclick = function() { captureIcon(imgFile); icon.remove(); };
-            document.body.appendChild(icon);
-            setTimeout(() => { if(icon) icon.remove(); }, 8000);
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        function captureIcon(src) {
-            aura += 100; localStorage.setItem('john_aura', aura); updateUI();
-            const modal = document.getElementById('achievement-modal');
-            document.getElementById('modal-img').src = src;
-            document.getElementById('modal-aura-text').innerText = "+100 AURA FOR " + (myUsername || "GUEST").toUpperCase();
-            modal.style.display = 'block'; setTimeout(() => modal.style.display = 'none', 1800);
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
         }
 
-        function openGallery(el) { currentSlide = galleryImages.indexOf(el.src); document.getElementById('zoomed-img').src = galleryImages[currentSlide]; overlay.style.display = 'flex'; triggerGalleryNotif(); }
-        function changeSlide(dir) { currentSlide = (currentSlide + dir + galleryImages.length) % galleryImages.length; document.getElementById('zoomed-img').src = galleryImages[currentSlide]; }
-        function triggerGlitch() { document.body.classList.add('master-glitch'); setTimeout(() => document.body.classList.remove('master-glitch'), 800); }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Fortnite Theme Styles */
+        .fn-card {
+            background: linear-gradient(135deg, rgba(58, 20, 114, 0.8), rgba(122, 40, 203, 0.8));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(122, 40, 203, 0.5);
+            transform: skew(-2deg);
+            transition: transform 0.3s ease;
+        }
+        .fn-card:hover {
+            transform: skew(-2deg) scale(1.02);
+            box-shadow: 0 0 30px rgba(122, 40, 203, 0.8);
+        }
+        .fn-content {
+            transform: skew(2deg);
+        }
+        .fn-text-shadow {
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #7a28cb, 1px -1px 0 #7a28cb, -1px 1px 0 #7a28cb, 1px 1px 0 #7a28cb;
+        }
+
+        /* Roblox Tech Theme Styles */
+        .roblox-tech-card {
+            background: rgba(13, 25, 42, 0.9);
+            border: 1px solid #00FBFF;
+            box-shadow: 0 0 15px rgba(0, 251, 255, 0.3), inset 0 0 10px rgba(0, 251, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .roblox-tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00FBFF, transparent);
+            animation: scanline 2s linear infinite;
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        .roblox-tech-text {
+            color: #00FBFF;
+            text-shadow: 0 0 5px rgba(0, 251, 255, 0.8);
+        }
+
+        /* Cursor and Interactions */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00FBFF;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #00FBFF;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        #cursor-trail {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(0, 251, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
+        }
+
+        /* Chaos Engine Effects */
+        .glitch {
+            position: relative;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(13px, 9999px, 86px, 0); }
+            20% { clip: rect(69px, 9999px, 16px, 0); }
+            40% { clip: rect(44px, 9999px, 5px, 0); }
+            60% { clip: rect(78px, 9999px, 94px, 0); }
+            80% { clip: rect(8px, 9999px, 53px, 0); }
+            100% { clip: rect(98px, 9999px, 20px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(21px, 9999px, 49px, 0); }
+            20% { clip: rect(55px, 9999px, 11px, 0); }
+            40% { clip: rect(9px, 9999px, 78px, 0); }
+            60% { clip: rect(61px, 9999px, 24px, 0); }
+            80% { clip: rect(94px, 9999px, 82px, 0); }
+            100% { clip: rect(33px, 9999px, 9px, 0); }
+        }
+        .void-sync-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid red;
+            color: red;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            z-index: 10000;
+            display: none;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Notifications */
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .notification-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-surface": "#e5e2e1",
+                        "primary-container": "#6e9e47",
+                        "on-secondary-fixed": "#2b1703",
+                        "outline": "#8d9383",
+                        "background": "#131313",
+                        "on-secondary-container": "#d3ae8e",
+                        "on-tertiary-container": "#292a2a",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c3c9b7",
+                        "on-primary-fixed": "#0c2000",
+                        "surface": "#131313",
+                        "sky-blue": "#78A7FF",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303030",
+                        "surface-variant": "#353535",
+                        "surface-container-lowest": "#0e0e0e",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "surface-container-highest": "#353535",
+                        "on-background": "#e5e2e1",
+                        "tertiary": "#c7c6c6",
+                        "on-secondary-fixed-variant": "#5c4128",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-low": "#1b1b1c",
+                        "on-primary": "#193700",
+                        "surface-bright": "#393939",
+                        "secondary-fixed-dim": "#e6bf9e",
+                        "primary": "#a2d577",
+                        "tertiary-fixed": "#e3e2e2",
+                        "surface-tint": "#a2d577",
+                        "secondary-fixed": "#ffdcbf",
+                        "bedrock-black": "#000000",
+                        "aura-cyan": "#00FBFF",
+                        "surface-dim": "#131313",
+                        "xp-green": "#85FF00",
+                        "primary-fixed-dim": "#a2d577",
+                        "stone-light": "#C6C6C6",
+                        "outline-variant": "#43493b",
+                        "on-primary-container": "#153000",
+                        "on-error": "#690005",
+                        "secondary-container": "#5c4128",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-container": "#919190",
+                        "on-secondary": "#432b14",
+                        "error-container": "#93000a",
+                        "stone-dark": "#555555",
+                        "surface-container": "#202020",
+                        "secondary": "#e6bf9e",
+                        "primary-fixed": "#bdf290",
+                        "on-tertiary": "#303031",
+                        "inverse-primary": "#3e6918",
+                        "on-primary-fixed-variant": "#275000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "container-max": "640px",
+                        "unit": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Space Grotesk"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-lg": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.05em", "fontWeight": "700" }],
+                        "code-sm": ["12px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "label-caps": ["14px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
     </script>
-</body>
-</html>
+</head>
+<body class="text-on-surface font-body-md min-h-screen pb-32">
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-trail"></div>
+<!-- Void Sync Alert -->
+<div class="void-sync-alert" id="void-sync">VOID SYNC DETECTED</div>
+<!-- Notifications -->
+<div class="notification-toast" id="notif-toast"></div>
+<!-- Background Shader -->
+<div class="fixed inset-0 w-full h-full z-[-1]" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_17" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_17');
+
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform float u_scrollY;
+varying vec2 v_texCoord;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+void main() {
+    // Adjust uv.y based on scroll to simulate moving through the shader
+    vec2 uv = v_texCoord;
+    float scrollOffset = u_scrollY * 0.5; // Tweak this for transition speed
+    float yPos = uv.y - scrollOffset;
+
+    // Transition points based on Y coordinate (simulated scrolling)
+    // We reverse the mapping so scrolling down moves from Minecraft -> Fortnite -> Roblox
+    float normalizedY = fract(yPos); // Basic loop or clamp depending on need. Let's use a simpler mapping.
+    
+    // Simpler mapping: based purely on scroll percentage passed from JS
+    float scrollPct = clamp(u_scrollY, 0.0, 1.0);
+    
+    // Minecraft Grass (Top)
+    vec3 minecraftGreen = mix(vec3(0.24, 0.44, 0.12), vec3(0.44, 0.68, 0.22), noise(uv * 100.0 + u_time * 0.1));
+    
+    // Fortnite Purple (Middle)
+    vec3 fortnitePurple = mix(vec3(0.2, 0.05, 0.4), vec3(0.4, 0.1, 0.7), noise(uv * 50.0 - u_time * 0.2));
+    
+    // Roblox Blue/Grey (Bottom)
+    vec3 robloxTech = mix(vec3(0.05, 0.1, 0.2), vec3(0.1, 0.3, 0.5), noise(uv * 80.0 + u_time * 0.05));
+
+    // Smooth blending based on scroll percentage
+    vec3 finalColor;
+    if (scrollPct < 0.33) {
+        finalColor = mix(minecraftGreen, fortnitePurple, smoothstep(0.1, 0.33, scrollPct));
+    } else if (scrollPct < 0.66) {
+        finalColor = mix(fortnitePurple, robloxTech, smoothstep(0.4, 0.66, scrollPct));
+    } else {
+        finalColor = robloxTech;
+    }
+    
+    // Add pixelation grit
+    float grit = (noise(uv * 200.0) - 0.5) * 0.1;
+    finalColor += grit;
+
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uScrollY = gl.getUniformLocation(prog, 'u_scrollY');
+
+  let currentScroll = 0;
+  window.addEventListener('scroll', () => {
+      // Calculate scroll percentage
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      currentScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uScrollY) gl.uniform1f(uScrollY, currentScroll);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<main class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-12 pt-12 relative z-10 bg-surface-container-low/80 backdrop-blur-sm pb-12 rounded-xl mt-8 transition-colors duration-500" id="main-container">
+<!-- Header Section (Minecraft) -->
+<header class="flex flex-col items-center justify-center text-center gap-4 fade-in-up">
+<div class="relative mc-gold-border bg-surface p-1 shadow-lg animate-float">
+<img class="w-32 h-32 object-cover pixelated" data-alt="Blocky Minecraft-style character avatar of John" src="https://lh3.googleusercontent.com/aida/AP1WRLtZuA8xpaG3sMaZ4WoXRhJp2A6_Q4v-m87gREcHOrEqeotKuSqcwy6kxIpoDtnfA4oNu46fscsF8arRB1XiC6zeVB8UZrEHr_MKVmcu9iMroeyiqw28bvWLKead4sLhBp2PdSCKU-7VEqhYD1LxNyJFnbi5E5k3nMJ2ZPBmghWFQBxfyMdslBXyKC1WooLoYNU4HSJLibevG7CTxK_umJqgXtyNy1rzmzFqJnBRFuijkHkAzw4vEOWtEKZe"/>
+</div>
+<div class="flex flex-col gap-2 w-full items-center">
+<h1 class="font-headline-lg text-headline-lg text-white mc-text-shadow glitch" data-text="John™">John™</h1>
+<div class="xp-bar-container mt-2">
+<div class="xp-bar-fill flex items-center justify-center relative">
+<span class="absolute z-10 font-label-caps text-label-caps text-white mc-text-shadow top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">AURA: 0</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Socials Section (Minecraft) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-100">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY SOCIALS</h2>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="mc-button px-6 py-3 flex items-center gap-3 text-white" onclick="showNotification('Opening TikTok...')">
+<span class="material-symbols-outlined">music_note</span>
+<span class="font-label-caps text-label-caps mc-text-shadow">TikTok</span>
+</button>
+<button class="mc-button px-6 py-3 flex items-center gap-3 text-white" onclick="showNotification('Opening Roblox...')">
+<span class="material-symbols-outlined">gamepad</span>
+<span class="font-label-caps text-label-caps mc-text-shadow">Roblox</span>
+</button>
+</div>
+</section>
+<!-- Photos Section (Minecraft) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-200">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY PHOTOS</h2>
+<div class="grid grid-cols-2 gap-4 w-full">
+<div class="mc-wood-border p-1 bg-[#483018] col-span-2 md:col-span-1" onclick="showNotification('Viewing Photo 1...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform cursor-none" data-alt="Minecraft style framed painting of a person walking on a path with trees" src="https://lh3.googleusercontent.com/aida/AP1WRLtQfDXV4i8H3Haa03P1-SmCRS7lVA4xdVLnB7hsqFhzUBW0zVwto4LiJQxQHVIQUqizARYPbkrpE9T-wh0tKSQ6Yx5rhTo55d3HVOz0EIQZ3PXvvHjjSu1iGc7AGFJtKmK6iylHRm0cSDVpgZ0tQ2BPgfSkVxf8-LNoDjmUPedr3auvETVDnu3tCWk96_Whp1lAheUVyEF6t8kYINkAvRGJzjE5uzgIZKNCze4f1-DtltiNj5-P5TWoyNTL"/>
+</div>
+<div class="mc-wood-border p-1 bg-[#483018] col-span-1 md:col-span-1" onclick="showNotification('Viewing Photo 2...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform cursor-none" data-alt="Minecraft style framed painting of trees and light" src="https://lh3.googleusercontent.com/aida/AP1WRLukqQMxfFtkQPvvhcDDdqpsH9L8FzYzZH-EnBSNiieu--L0stLBoQapbinzRxo07YMyzI7rl4hfFN-h3OtQDUSE8wMhavmD_wllswefIHJ_5e2a8EBFSLbBi4tJr6xAan1swqR_fvcxScG6jcuvVve7mWHcm3_aeOr-iID9GMCGYEbVu_2S4jM2Vo-_IpsSwZC7M_yQx9yzbB5HThdZw6fkeNVjRzzwAbP_ReOfuNDxhj7YvIlQZFsfMvPR"/>
+</div>
+</div>
+</section>
+<!-- Favorite Song Section (Minecraft) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-300">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY FAVORITE SONG</h2>
+<div class="mc-border bg-surface-container-high w-full p-4 flex items-center gap-4">
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mc-text-shadow text-white hover:opacity-80 transition-transform hover:scale-105 active:scale-95" onclick="showNotification('Playing cool boi...')" style="cursor: none;">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface">song</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">cool boi</span>
+</div>
+</div>
+</section>
+<!-- Favorite Games Section (Fortnite Theme) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-400 mt-8">
+<h2 class="font-label-caps text-label-caps text-[#c084fc] tracking-[0.2em] fn-text-shadow bg-[#2e1065]/80 px-4 py-1 rounded border border-[#7e22ce]">MY FAVORITE GAMES</h2>
+<div class="w-full fn-card p-2 relative group overflow-hidden">
+<div class="absolute inset-0 bg-[#7e22ce]/20 group-hover:bg-[#7e22ce]/10 transition-colors z-10 pointer-events-none"></div>
+<div class="fn-content relative z-20">
+<img alt="Fortnite Background" class="w-full h-64 object-cover border-2 border-[#d8b4fe]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi-dJ4-BTsJmR1Bk7xHW0uLyzWx5-kHxASPOqPQ9qSCv1ex_QammFzqY-6UjYS__19vjZQVKN-W8LVkGeFVLRP5UfXPZzEKaChJHc3TB_-ymlMrktDLvryUq8BjQl4RWbT_sOgEl49Dbo-w33ip821Qtp7rx_S34VBkLP4BxuJ5sWJEkiDtnjA9rkO1xhTnBeM_udro-tBiAJzubxDtVGv_xTmRrLF_N60AdF37YsOvFFfHmpOTIz8fn6wHhao9bN2OAxtwX2ROerX"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 to-transparent">
+<h3 class="font-headline-lg text-headline-md text-white fn-text-shadow italic uppercase">Fortnite</h3>
+<p class="font-label-caps text-[#e9d5ff] mt-1">Battle Royale | Ranked Unreal</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Professional Specialization (Roblox Coding Theme) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-500 mt-8">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text">MY SPECIALIZATION</h2>
+<div class="roblox-tech-card w-full p-6 flex flex-col gap-4">
+<img alt="Roblox Studio Coding" class="w-full h-48 object-cover border border-[#00FBFF]/50 opacity-80 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtALtrI3Mdjqzedtn78j2kL4HRum5XsBG8tGyCrfyeonn0cQWNq1P6BvNtj-GrFx4XZXPgNO8tj33MuaESMvAeR36Sg52gF1WBkRkt3J-TMmW3iFQ3QTPJcp_21RFQjnyLhX65LzEC5jUFh-GXFEFBPJty-UHDTdcCp5dpvTx8TnGrM0ffGoPNY7PnahxcWqSMt94Pai93xorR3UMp_lRw82qfKqw2v_bnh6nC8lGZFF6XFxkK3DK4qoqLVzwXL0tbMTyHsdVZxlsL"/>
+<div class="flex flex-col gap-2 mt-2">
+<h3 class="font-code-sm text-lg text-[#00FBFF] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="roblox-tech-text">&gt; Roblox_Developer.lua</span>
+</h3>
+<div class="bg-black/50 p-4 border border-[#00FBFF]/30 font-code-sm text-sm text-stone-light">
+<p class="text-[#85FF00]">local</p> developer = {
+<br/>  skills = {<span class="text-[#78A7FF]">"Luau"</span>, <span class="text-[#78A7FF]">"UI/UX"</span>, <span class="text-[#78A7FF]">"Systems"</span>},
+<br/>  status = <span class="text-[#ffdcbf]">"Building"</span>
+<br/>}
+</div>
+</div>
+</div>
+</section>
+<!-- Roblox Details Section (Original Theme modified slightly to fit flow) -->
+<section class="flex flex-col items-center gap-6 fade-in-up delay-500 mt-8">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded">MY ROBLOX DETAILS</h2>
+<div class="mc-border bg-surface-variant w-full p-6 flex flex-col gap-4 relative">
+<!-- Decorative element to look like a UI tab -->
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-light">person</span>
+<h3 class="font-headline-md text-headline-md text-white">Profile: John</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">badge</span>
+<span class="font-label-caps text-label-caps">Identity</span>
+</div>
+<p class="font-code-sm text-code-sm text-on-surface-variant">Handle: @pokkiexx3</p>
+<p class="font-code-sm text-code-sm text-on-surface-variant">ID: 8593516066</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-sm">group</span>
+<span class="font-label-caps text-label-caps">Socials</span>
+</div>
+<p class="font-code-sm text-code-sm text-on-surface-variant">Friends: 96 | Followers: 32</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-xp-green">
+<span class="material-symbols-outlined text-sm">history</span>
+<span class="font-label-caps text-label-caps">History</span>
+</div>
+<p class="font-code-sm text-code-sm text-on-surface-variant">Joined: 06/02/2025</p>
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+<span class="font-label-caps text-label-caps">Bio</span>
+</div>
+<p class="font-code-sm text-code-sm text-on-surface-variant italic">hey am john tm second account hacked with 1k followers ✌️🥶🥀</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Sync Section -->
+<section class="flex flex-col items-center gap-4 mt-8 fade-in-up delay-500">
+<div class="mc-border bg-surface-container w-full p-2 flex items-center justify-between">
+<input class="bg-background border-2 border-outline-variant text-on-surface px-4 py-2 font-code-sm text-code-sm w-full max-w-[200px] focus:outline-none focus:border-outline" placeholder="Set Identity..." style="cursor: none;" type="text"/>
+<button class="mc-button bg-primary px-6 py-2 ml-4 flex-shrink-0" onclick="triggerVoidSync()">
+<span class="font-label-caps text-label-caps text-white mc-text-shadow">SYNC</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="flex flex-col items-center justify-center w-full py-gutter mb-20 mt-12 bg-transparent opacity-50 relative z-10">
+<p class="font-code-sm text-code-sm text-stone-dark tracking-widest uppercase bg-background/50 px-2 rounded">sam is cool asf</p>
+</footer>
+<script>
+    // Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorTrail = document.getElementById('cursor-trail');
+    
+    window.addEventListener('mousemove', (e) => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+        
+        // Slight delay for trail
+        setTimeout(() => {
+            cursorTrail.style.left = e.clientX + 'px';
+            cursorTrail.style.top = e.clientY + 'px';
+        }, 50);
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        cursorTrail.style.transform = 'translate(-50%, -50%) scale(1.2)';
+        cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.8)';
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorTrail.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.5)';
+    });
+
+    // Interactive hover effects for custom cursor
+    const interactiveElements = document.querySelectorAll('button, a, input, .mc-wood-border');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorDot.style.width = '12px';
+            cursorDot.style.height = '12px';
+            cursorDot.style.backgroundColor = '#85FF00'; // Change color on hover
+            cursorTrail.style.borderColor = '#85FF00';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorDot.style.width = '8px';
+            cursorDot.style.height = '8px';
+            cursorDot.style.backgroundColor = '#00FBFF';
+            cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.5)';
+        });
+    });
+
+    // Chaos Engine: Void Sync
+    function triggerVoidSync() {
+        const alert = document.getElementById('void-sync');
+        alert.style.display = 'block';
+        document.body.classList.add('glitch');
+        
+        showNotification('Initiating Void Sync...');
+        
+        setTimeout(() => {
+            alert.style.display = 'none';
+            document.body.classList.remove('glitch');
+            showNotification('Sync Complete.');
+        }, 3000);
+    }
+
+    // Notifications
+    const toast = document.getElementById('notif-toast');
+    let toastTimeout;
+
+    function showNotification(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // Scroll Theme Transition logic (updating container background tint)
+    const mainContainer = document.getElementById('main-container');
+    window.addEventListener('scroll', () => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if(maxScroll <= 0) return;
+        const scrollPct = window.scrollY / maxScroll;
+        
+        if (scrollPct < 0.33) {
+            // Minecraft Theme bg tint
+            mainContainer.style.backgroundColor = 'rgba(27, 27, 28, 0.8)';
+        } else if (scrollPct < 0.66) {
+            // Fortnite Theme bg tint
+            mainContainer.style.backgroundColor = 'rgba(46, 16, 101, 0.8)'; // deep purple tint
+        } else {
+            // Roblox Theme bg tint
+            mainContainer.style.backgroundColor = 'rgba(13, 25, 42, 0.8)'; // tech blue/dark tint
+        }
+    });
+
+</script>
+</body></html>
