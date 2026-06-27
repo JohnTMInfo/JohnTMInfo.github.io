@@ -1,122 +1,791 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
-<head>
+
+<html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>John™ - Visuals</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+<title>John™ - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
-    body {
-        background-color: #0a0a0c;
-        color: #ffffff;
-        font-family: 'Space Grotesk', sans-serif;
-        overflow-x: hidden;
-    }
-    
-    .glass-panel {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .social-btn:hover {
-        background: rgba(0, 251, 255, 0.1);
-        border-color: #00FBFF;
-        box-shadow: 0 0 20px rgba(0, 251, 255, 0.2);
-        transform: translateY(-2px);
-    }
+        /* Custom Minecraft-esque styling */
+        body {
+            background-color: #1b1b1c; /* Fallback */
+            cursor: none; /* Hide default cursor for custom cursor */
+            overflow-x: hidden;
+        }
 
-    .image-card {
-        overflow: hidden;
-        position: relative;
-    }
+        .mc-border {
+            border: 4px solid;
+            border-top-color: #a2d577; /* primary */
+            border-left-color: #a2d577;
+            border-right-color: #3e6918; /* inverse-primary */
+            border-bottom-color: #3e6918;
+        }
 
-    .image-card img {
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease;
-        filter: grayscale(20%) brightness(0.8);
-    }
+        .mc-wood-border {
+            border: 4px solid;
+            border-top-color: #d3ae8e; /* on-secondary-container */
+            border-left-color: #d3ae8e;
+            border-right-color: #5c4128; /* secondary-container */
+            border-bottom-color: #5c4128;
+            background-color: rgba(230, 191, 158, 0.8); /* secondary with transparency */
+            color: #2b1703; /* on-secondary-fixed */
+        }
 
-    .image-card:hover img {
-        transform: scale(1.05);
-        filter: grayscale(0%) brightness(1.1);
-    }
+        .mc-gold-border {
+            border: 4px solid;
+            border-top-color: #bdf290; /* primary-fixed */
+            border-left-color: #bdf290;
+            border-right-color: #275000; /* on-primary-fixed-variant */
+            border-bottom-color: #275000;
+        }
 
-    .image-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
-    }
+        .mc-button {
+            border: 4px solid;
+            border-top-color: #bdf290; /* primary-fixed */
+            border-left-color: #bdf290;
+            border-right-color: #275000; /* on-primary-fixed-variant */
+            border-bottom-color: #275000;
+            background-color: rgba(110, 158, 71, 0.9); /* primary-container */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: none;
+        }
 
-    .image-card:hover::after {
-        opacity: 1;
-    }
+        .mc-button:hover {
+            transform: scale(1.05);
+        }
 
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #0a0a0c; 
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #333; 
-        border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #00FBFF; 
-    }
-</style>
-</head>
-<body class="min-h-screen py-16 px-6 md:px-12 flex flex-col items-center gap-16">
+        .mc-button:active {
+            border-top-color: #275000;
+            border-left-color: #275000;
+            border-right-color: #bdf290;
+            border-bottom-color: #bdf290;
+            transform: scale(0.95) translateY(4px);
+        }
 
-    <header class="flex flex-col items-center gap-4 text-center mt-8">
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500 drop-shadow-lg">
-            John™
-        </h1>
-        <div class="h-px w-24 bg-gradient-to-r from-transparent via-[#00FBFF] to-transparent"></div>
-    </header>
+        .mc-button:hover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    <section class="flex flex-wrap justify-center gap-6 w-full max-w-2xl">
-        <a href="https://discord.com" target="_blank" class="glass-panel social-btn px-10 py-4 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto cursor-pointer text-[#00FBFF] font-bold tracking-widest uppercase text-sm">
-            Discord
-        </a>
-        <a href="https://roblox.com" target="_blank" class="glass-panel social-btn px-10 py-4 rounded-full flex items-center justify-center gap-3 w-full sm:w-auto cursor-pointer text-[#00FBFF] font-bold tracking-widest uppercase text-sm">
-            Roblox
-        </a>
-    </section>
+        .mc-text-shadow {
+            text-shadow: 2px 2px 0 #000;
+        }
 
-    <section class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+        .xp-bar-container {
+            border: 2px solid #000;
+            background-color: rgba(19, 19, 19, 0.8); /* background */
+            position: relative;
+            height: 24px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .xp-bar-fill {
+            background-color: #85FF00; /* xp-green */
+            height: 100%;
+            width: 100%; /* Assuming max AURA for now, adjust as needed */
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .pixelated {
+            image-rendering: pixelated;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800" alt="Showcase 1" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        .fade-in-up-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" alt="Showcase 2" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+        .delay-600 { transition-delay: 600ms; }
 
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=800" alt="Showcase 3" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
 
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&q=80&w=800" alt="Showcase 4" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
 
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=800" alt="Showcase 5" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
 
-        <div class="glass-panel p-2 rounded-2xl image-card">
-            <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b7738?auto=format&fit=crop&q=80&w=800" alt="Showcase 6" class="w-full h-[300px] md:h-[400px] object-cover rounded-xl" />
-        </div>
+        /* Fortnite Theme Styles */
+        .fn-card {
+            background: linear-gradient(135deg, rgba(103, 58, 183, 0.6), rgba(243, 175, 25, 0.4));
+            border: 2px solid rgba(243, 175, 25, 0.8);
+            box-shadow: 0 0 20px rgba(243, 175, 25, 0.4);
+            transform: skew(-2deg);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+            backdrop-filter: blur(12px);
+        }
+        .fn-card:hover {
+            transform: skew(-2deg) scale(1.03);
+            box-shadow: 0 0 30px rgba(243, 175, 25, 0.7);
+        }
+        .fn-content {
+            transform: skew(2deg);
+        }
+        .fn-text-shadow {
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #F3AF19, 1px -1px 0 #F3AF19, -1px 1px 0 #F3AF19, 1px 1px 0 #F3AF19;
+        }
 
-    </section>
+        /* Roblox Tech Theme Styles */
+        .roblox-tech-card {
+            background: rgba(13, 25, 42, 0.7);
+            border: 1px solid #00FBFF;
+            box-shadow: 0 0 15px rgba(0, 251, 255, 0.3), inset 0 0 10px rgba(0, 251, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+            backdrop-filter: blur(12px);
+        }
+        .roblox-tech-card:hover {
+            transform: translateY(-5px);
+        }
+        .roblox-tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00FBFF, transparent);
+            animation: scanline 2s linear infinite;
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        .roblox-tech-text {
+            color: #00FBFF;
+            text-shadow: 0 0 5px rgba(0, 251, 255, 0.8);
+        }
 
-</body>
-</html>
+        /* Cursor and Interactions */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00FBFF;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #00FBFF;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        #cursor-trail {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(0, 251, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
+        }
+
+        /* Chaos Engine Effects */
+        .glitch {
+            position: relative;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(13px, 9999px, 86px, 0); }
+            20% { clip: rect(69px, 9999px, 16px, 0); }
+            40% { clip: rect(44px, 9999px, 5px, 0); }
+            60% { clip: rect(78px, 9999px, 94px, 0); }
+            80% { clip: rect(8px, 9999px, 53px, 0); }
+            100% { clip: rect(98px, 9999px, 20px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(21px, 9999px, 49px, 0); }
+            20% { clip: rect(55px, 9999px, 11px, 0); }
+            40% { clip: rect(9px, 9999px, 78px, 0); }
+            60% { clip: rect(61px, 9999px, 24px, 0); }
+            80% { clip: rect(94px, 9999px, 82px, 0); }
+            100% { clip: rect(33px, 9999px, 9px, 0); }
+        }
+        .void-sync-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid red;
+            color: red;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            z-index: 10000;
+            display: none;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Notifications */
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .notification-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Backdrop Blur Helpers */
+        .glass-panel {
+            background: rgba(27, 27, 28, 0.5);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-surface": "#e5e2e1",
+                        "primary-container": "#6e9e47",
+                        "on-secondary-fixed": "#2b1703",
+                        "outline": "#8d9383",
+                        "background": "#131313",
+                        "on-secondary-container": "#d3ae8e",
+                        "on-tertiary-container": "#292a2a",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c3c9b7",
+                        "on-primary-fixed": "#0c2000",
+                        "surface": "#131313",
+                        "sky-blue": "#78A7FF",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303030",
+                        "surface-variant": "#353535",
+                        "surface-container-lowest": "#0e0e0e",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "surface-container-highest": "#353535",
+                        "on-background": "#e5e2e1",
+                        "tertiary": "#c7c6c6",
+                        "on-secondary-fixed-variant": "#5c4128",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-low": "#1b1b1c",
+                        "on-primary": "#193700",
+                        "surface-bright": "#393939",
+                        "secondary-fixed-dim": "#e6bf9e",
+                        "primary": "#a2d577",
+                        "tertiary-fixed": "#e3e2e2",
+                        "surface-tint": "#a2d577",
+                        "secondary-fixed": "#ffdcbf",
+                        "bedrock-black": "#000000",
+                        "aura-cyan": "#00FBFF",
+                        "surface-dim": "#131313",
+                        "xp-green": "#85FF00",
+                        "primary-fixed-dim": "#a2d577",
+                        "stone-light": "#C6C6C6",
+                        "outline-variant": "#43493b",
+                        "on-primary-container": "#153000",
+                        "on-error": "#690005",
+                        "secondary-container": "#5c4128",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-container": "#919190",
+                        "on-secondary": "#432b14",
+                        "error-container": "#93000a",
+                        "stone-dark": "#555555",
+                        "surface-container": "#202020",
+                        "secondary": "#e6bf9e",
+                        "primary-fixed": "#bdf290",
+                        "on-tertiary": "#303031",
+                        "inverse-primary": "#3e6918",
+                        "on-primary-fixed-variant": "#275000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "container-max": "640px",
+                        "unit": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Space Grotesk"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-lg": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.05em", "fontWeight": "700" }],
+                        "code-sm": ["12px", { "lineHeight": "1", "fontWeight": "400" }],
+                        "label-caps": ["14px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>.scroll-reveal { transition-duration: 300ms !important; transform: translateY(10px) !important; }</style><style>.delay-100 { transition-delay: 30ms !important; } .delay-200 { transition-delay: 60ms !important; } .delay-300 { transition-delay: 90ms !important; } .delay-400 { transition-delay: 120ms !important; } .delay-500 { transition-delay: 150ms !important; } .delay-600 { transition-delay: 180ms !important; }</style><style>.animate-float { animation-duration: 1.5s !important; }</style></head>
+<body class="text-on-surface font-body-md min-h-screen pb-32 bg-transparent">
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-trail"></div>
+<!-- Void Sync Alert -->
+<div class="void-sync-alert" id="void-sync">VOID SYNC DETECTED</div>
+<!-- Notifications -->
+<div class="notification-toast" id="notif-toast"></div>
+<!-- Background Shader -->
+<div class="fixed inset-0 w-full h-full z-[-1]" style="display:block;">
+<canvas id="shader-canvas" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas');
+
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+varying vec2 v_texCoord;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Pixelation for that gaming feel
+    float pixelScale = 128.0;
+    vec2 p_uv = floor(uv * pixelScale) / pixelScale;
+
+    // Scroll-based theme blending logic
+    // We use uv.y as a proxy for scroll position in this simple full-page shader implementation,
+    // though in a real scroll it would be tied to a uniform. Here we mix by Y coordinate.
+    
+    float mc_mask = smoothstep(0.66, 1.0, uv.y);
+    float fn_mask = smoothstep(0.33, 0.45, uv.y) * (1.0 - smoothstep(0.66, 0.75, uv.y));
+    float rb_mask = 1.0 - smoothstep(0.33, 0.45, uv.y);
+
+    // Minecraft Theme (Top)
+    vec3 mc_color = mix(vec3(0.24, 0.44, 0.12), vec3(0.44, 0.68, 0.22), noise(p_uv * 10.0 + u_time * 0.1));
+    mc_color += (noise(p_uv * 40.0) - 0.5) * 0.1; // Grit
+    
+    // Fortnite Theme (Middle)
+    vec3 fn_color = mix(vec3(0.2, 0.05, 0.4), vec3(0.8, 0.6, 0.1), noise(p_uv * 8.0 - u_time * 0.2));
+    fn_color *= 0.8 + 0.2 * sin(u_time * 0.5 + p_uv.x * 3.0); // Pulse
+    
+    // Roblox Theme (Bottom)
+    vec3 rb_color = mix(vec3(0.05, 0.1, 0.15), vec3(0.0, 0.8, 0.9), noise(p_uv * 15.0 + u_time * 0.05));
+    float grid = step(0.95, fract(p_uv.x * 20.0)) + step(0.95, fract(p_uv.y * 20.0));
+    rb_color += grid * 0.15; // Tech grid
+
+    vec3 finalColor = mc_color * mc_mask + fn_color * fn_mask + rb_color * rb_mask;
+    
+    // Ambient breathing
+    finalColor *= 0.9 + 0.1 * sin(u_time * 0.3);
+    
+    // Vignette
+    float vig = smoothstep(1.5, 0.5, length(uv - 0.5) * 2.0);
+    finalColor *= mix(0.7, 1.0, vig);
+
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<main class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-12 pt-12 relative z-10 pb-12 rounded-xl mt-8" id="main-container">
+<!-- Header Section (Minecraft) -->
+<header class="flex flex-col items-center justify-center text-center gap-4 scroll-reveal">
+<div class="relative mc-gold-border bg-surface p-1 shadow-lg animate-float">
+<img class="w-32 h-32 object-cover pixelated" data-alt="Blocky Minecraft-style character avatar of John" src="https://lh3.googleusercontent.com/aida/AP1WRLtZuA8xpaG3sMaZ4WoXRhJp2A6_Q4v-m87gREcHOrEqeotKuSqcwy6kxIpoDtnfA4oNu46fscsF8arRB1XiC6zeVB8UZrEHr_MKVmcu9iMroeyiqw28bvWLKead4sLhBp2PdSCKU-7VEqhYD1LxNyJFnbi5E5k3nMJ2ZPBmghWFQBxfyMdslBXyKC1WooLoYNU4HSJLibevG7CTxK_umJqgXtyNy1rzmzFqJnBRFuijkHkAzw4vEOWtEKZe"/>
+</div>
+<div class="flex flex-col gap-2 w-full items-center">
+<h1 class="font-headline-lg text-headline-lg text-white mc-text-shadow glitch" data-text="John™">John™</h1>
+<div class="xp-bar-container mt-2">
+<div class="xp-bar-fill flex items-center justify-center relative">
+<span class="absolute z-10 font-label-caps text-label-caps text-white mc-text-shadow top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">AURA: 0</span>
+</div>
+</div>
+</div>
+</header>
+<div class="glass-panel p-6 rounded-xl flex flex-col gap-12 scroll-reveal delay-100">
+<!-- Socials Section (Minecraft) -->
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY SOCIALS</h2>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="mc-button px-6 py-3 flex items-center gap-3 text-white" onclick="showNotification('Opening TikTok...')">
+<span class="material-symbols-outlined">music_note</span>
+<span class="font-label-caps text-label-caps mc-text-shadow">TikTok</span>
+</button>
+<button class="mc-button px-6 py-3 flex items-center gap-3 text-white" onclick="showNotification('Opening Roblox...')">
+<span class="material-symbols-outlined">gamepad</span>
+<span class="font-label-caps text-label-caps mc-text-shadow">Roblox</span>
+</button>
+</div>
+</section>
+<!-- My Portfolio (Minecraft) -->
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY PHOTOS</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+<div class="mc-wood-border p-1 scroll-reveal" onclick="showNotification('Viewing Photo 1...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 1" src="https://raw.githubusercontent.com/JohnTMInfo/JohnTMInfo.github.io/refs/heads/main/image%20(9).png"/>
+</div>
+<div class="mc-wood-border p-1 scroll-reveal delay-100" onclick="showNotification('Viewing Photo 2...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 2" src="https://raw.githubusercontent.com/JohnTMInfo/JohnTMInfo.github.io/refs/heads/main/image%20(10).png"/>
+</div>
+<div class="mc-wood-border p-1 scroll-reveal delay-200" onclick="showNotification('Viewing Photo 3...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 3" src="https://lh3.googleusercontent.com/aida/AP1WRLvdi8TaN_9cbQDympl5vccEuis2MH3dK_Lvp_DPmCs9tW3Yw4B3ryiymleiZkh5s7YsLfdq672EF_DUMtlLZLipe6JzM5kivtf24H0cSE-aB5ZbXwuIMr3rXr50BEZiXArtgItG854k2I9JQSvNVZrhDNgsMEl0_truQoxrpK2Tu_FkVrboYpaiMaAFOiHC4m2J-NVB_SIuadKQOvvOdGTeFJN-_yI5i4yoRy_agS26zQMQILu66ttpGn8"/>
+</div>
+<div class="mc-wood-border p-1 scroll-reveal delay-300" onclick="showNotification('Viewing Photo 4...')">
+<img class="w-full h-48 object-cover pixelated hover:scale-105 transition-transform duration-500 cursor-none" data-alt="Photo 4" src="https://lh3.googleusercontent.com/aida/AP1WRLuCEsLDphfW0NVW6Gqzi7_myRaNtGle3k4TyZZYKLWg7mI2fYY1Pv_ahSCufPKJuiJtGIDS4m-kexuljDkWX5_EBultrPHPJLq1Rwf5Q-3iOsqxQHhMHJdFcrCCrmPRtwhDDC0TnqitVhlMm0r0inHEcZxwfx5D4Q6T42Jr-WtPIkZDEau7fbp7n0mjWnMMZGC72NR1gZLS53vSeGL3ynEbnwyKnFWIOAeXBunJ9X-tPpd8nlPVpi9AVrlY"/>
+</div>
+</div>
+</section>
+<!-- Favorite Song Section (Minecraft) -->
+<section class="flex flex-col items-center gap-6">
+<h2 class="font-label-caps text-label-caps text-primary tracking-[0.2em] mc-text-shadow bg-surface-container-high/80 px-4 py-1 rounded backdrop-blur-md">MY FAVORITE SONG</h2>
+<div class="mc-border bg-surface-container-high/80 backdrop-blur-md w-full p-4 flex items-center gap-4 transition-transform duration-500 hover:-translate-y-1 scroll-reveal">
+<button class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mc-text-shadow text-white hover:opacity-80 transition-all hover:scale-105 active:scale-95 duration-300" onclick="showNotification('Playing cool boi...')" style="cursor: none;">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface">song</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">cool boi</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Favorite Games Section (Fortnite Theme) -->
+<section class="flex flex-col items-center gap-6 mt-16 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#F3AF19] tracking-[0.2em] fn-text-shadow bg-[#673AB7]/80 px-4 py-1 rounded border border-[#F3AF19] backdrop-blur-md">MY FAVORITE GAMES</h2>
+<div class="w-full fn-card p-6 relative group overflow-hidden flex flex-col items-center justify-center min-h-[160px]">
+<div class="absolute inset-0 bg-[#F3AF19]/10 group-hover:bg-[#F3AF19]/20 transition-colors duration-500 z-10 pointer-events-none"></div>
+<div class="fn-content relative z-20 text-center">
+<h3 class="font-headline-lg text-headline-md text-white fn-text-shadow italic uppercase">Fortnite</h3>
+<p class="font-label-caps text-[#F3AF19] mt-2 drop-shadow-md">Battle Royale | Ranked Unreal</p>
+</div>
+</div>
+</section>
+<!-- Professional Specialization (Roblox Coding Theme) -->
+<section class="flex flex-col items-center gap-6 mt-16 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY SPECIALIZATION</h2>
+<div class="roblox-tech-card w-full p-6 flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<h3 class="font-code-sm text-lg text-[#00FBFF] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="roblox-tech-text">&gt; Roblox_Developer.lua</span>
+</h3>
+<div class="bg-black/60 backdrop-blur-md p-4 border border-[#00FBFF]/30 font-code-sm text-sm text-stone-light transition-colors duration-500 hover:bg-black/80">
+<p class="text-[#85FF00] inline">local</p> developer = {
+<br/>  skills = {<span class="text-[#78A7FF]">"Luau"</span>, <span class="text-[#78A7FF]">"UI/UX"</span>, <span class="text-[#78A7FF]">"Systems"</span>},
+<br/>  status = <span class="text-[#ffdcbf]">"Building"</span>
+<br/>}
+</div>
+</div>
+</div>
+</section>
+<!-- Roblox Details Section -->
+<section class="flex flex-col items-center gap-6 mt-8 scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY ROBLOX DETAILS</h2>
+<div class="roblox-tech-card w-full p-6 flex flex-col gap-4 relative transition-transform duration-500 hover:-translate-y-1">
+<!-- Decorative element to look like a UI tab -->
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-[#00FBFF]"></div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#00FBFF]">person</span>
+<h3 class="font-headline-md text-headline-md text-white roblox-tech-text">Profile: John</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-[#00FBFF]">
+<span class="material-symbols-outlined text-sm">badge</span>
+<span class="font-label-caps text-label-caps roblox-tech-text">Identity</span>
+</div>
+<p class="font-code-sm text-code-sm text-stone-light">Handle: @pokkiexx3</p>
+<p class="font-code-sm text-code-sm text-stone-light">ID: 8593516066</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-[#00FBFF]">
+<span class="material-symbols-outlined text-sm">group</span>
+<span class="font-label-caps text-label-caps roblox-tech-text">Socials</span>
+</div>
+<p class="font-code-sm text-code-sm text-stone-light">Friends: 96 | Followers: 32</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-[#85FF00]">
+<span class="material-symbols-outlined text-sm">history</span>
+<span class="font-label-caps text-label-caps text-[#85FF00] drop-shadow-[0_0_5px_#85FF00]">History</span>
+</div>
+<p class="font-code-sm text-code-sm text-stone-light">Joined: 06/02/2025</p>
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<div class="flex items-center gap-2 text-[#78A7FF]">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+<span class="font-label-caps text-label-caps text-[#78A7FF] drop-shadow-[0_0_5px_#78A7FF]">Bio</span>
+</div>
+<p class="font-code-sm text-code-sm text-stone-light italic">hey am john tm second account hacked with 1k followers ✌️🥶🥀</p>
+</div>
+</div>
+</div>
+</section>
+<!-- TikTok Feed Section -->
+<section class="flex flex-col items-center gap-6 mt-8 w-full scroll-reveal">
+<h2 class="font-label-caps text-label-caps text-[#00FBFF] tracking-[0.2em] bg-[#0d192a]/80 px-4 py-1 rounded border border-[#00FBFF] roblox-tech-text backdrop-blur-md">MY TIKTOK POSTS</h2>
+<div class="w-full bg-[#0d192a]/60 backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,251,255,0.3)] flex justify-center border border-[#00FBFF]/50 p-4">
+<blockquote cite="https://www.tiktok.com/@neoztar" class="tiktok-embed" data-embed-type="creator" data-unique-id="neoztar" style="max-width: 780px; min-width: 288px;">
+<section>
+<a href="https://www.tiktok.com/@neoztar?refer=creator_embed" target="_blank">@neoztar</a>
+</section>
+</blockquote>
+<script async="" src="https://www.tiktok.com/embed.js"></script>
+</div>
+</section>
+<!-- Sync Section -->
+<section class="flex flex-col items-center gap-4 mt-8 scroll-reveal">
+<div class="roblox-tech-card w-full p-4 flex items-center justify-between transition-transform duration-500 hover:-translate-y-1">
+<input class="bg-black/50 border border-[#00FBFF]/50 text-[#00FBFF] px-4 py-2 font-code-sm text-code-sm w-full max-w-[200px] focus:outline-none focus:border-[#00FBFF] focus:shadow-[0_0_10px_#00FBFF] transition-all duration-300 placeholder:text-[#00FBFF]/50" placeholder="Set Identity..." style="cursor: none;" type="text"/>
+<button class="bg-transparent border border-[#00FBFF] px-6 py-2 ml-4 flex-shrink-0 hover:bg-[#00FBFF]/20 hover:shadow-[0_0_15px_#00FBFF] transition-all duration-300" onclick="triggerVoidSync()">
+<span class="font-label-caps text-label-caps text-[#00FBFF] roblox-tech-text">SYNC</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="flex flex-col items-center justify-center w-full py-gutter mb-20 mt-12 bg-transparent opacity-70 hover:opacity-100 transition-opacity duration-500 relative z-10 gap-2">
+<p class="font-code-sm text-code-sm text-stone-light tracking-widest uppercase bg-surface-container-low/50 backdrop-blur-sm px-3 py-1 rounded">sam is cool asf</p>
+<a class="font-code-sm text-[#00FBFF] hover:text-white underline transition-colors duration-300 drop-shadow-[0_0_5px_#00FBFF]" href="https://johntminfo.github.io/" target="_blank">https://johntminfo.github.io/</a>
+</footer>
+<script>
+    // Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorTrail = document.getElementById('cursor-trail');
+    
+    window.addEventListener('mousemove', (e) => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+        
+        // Slight delay for trail
+        setTimeout(() => {
+            cursorTrail.style.left = e.clientX + 'px';
+            cursorTrail.style.top = e.clientY + 'px';
+        }, 50);
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        cursorTrail.style.transform = 'translate(-50%, -50%) scale(1.2)';
+        cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.8)';
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorTrail.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.5)';
+    });
+
+    // Interactive hover effects for custom cursor
+    const interactiveElements = document.querySelectorAll('button, a, input, .mc-wood-border, .fn-card, .roblox-tech-card');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorDot.style.width = '12px';
+            cursorDot.style.height = '12px';
+            cursorDot.style.backgroundColor = '#85FF00'; // Change color on hover
+            cursorTrail.style.borderColor = '#85FF00';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorDot.style.width = '8px';
+            cursorDot.style.height = '8px';
+            cursorDot.style.backgroundColor = '#00FBFF';
+            cursorTrail.style.borderColor = 'rgba(0, 251, 255, 0.5)';
+        });
+    });
+
+    // Chaos Engine: Void Sync
+    function triggerVoidSync() {
+        const alert = document.getElementById('void-sync');
+        alert.style.display = 'block';
+        document.body.classList.add('glitch');
+        
+        showNotification('Initiating Void Sync...');
+        
+        setTimeout(() => {
+            alert.style.display = 'none';
+            document.body.classList.remove('glitch');
+            showNotification('Sync Complete.');
+        }, 3000);
+    }
+    
+    // Random Void Sync Fragments
+    setInterval(() => {
+        if(Math.random() > 0.7) {
+            const frag = document.createElement('div');
+            frag.className = 'fixed text-[#00FBFF] font-code-sm text-xs pointer-events-none z-[9999] opacity-0 transition-opacity duration-1000';
+            frag.style.left = (Math.random() * 80 + 10) + 'vw';
+            frag.style.top = (Math.random() * 80 + 10) + 'vh';
+            frag.innerText = 'VOID SYNC // ' + Math.random().toString(36).substring(7).toUpperCase();
+            document.body.appendChild(frag);
+            
+            requestAnimationFrame(() => {
+                frag.style.opacity = '0.7';
+                setTimeout(() => {
+                    frag.style.opacity = '0';
+                    setTimeout(() => frag.remove(), 1000);
+                }, 1500);
+            });
+        }
+    }, 2500);
+
+    // Notifications
+    const toast = document.getElementById('notif-toast');
+    let toastTimeout;
+
+    function showNotification(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // Scroll Reveal Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up-visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+</script>
+</body></html>
